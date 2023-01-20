@@ -1,0 +1,12 @@
+import pymongo
+import os
+user = os.environ.get('mongo_user')
+password = os.environ.get('mongo_password')
+client = pymongo.MongoClient(f'mongodb+srv://{user}:{password}@cluster0-ysglw.mongodb.net/')
+db = client.test
+blog_collection = db.blog
+for post in blog_collection.find({'content': {'$regex': '^I love'}}, {'_id': 0, 'post_date': 0, 'user': 0}):
+    print(post)
+
+# output: {'title': 'First post', 'content': 'I love Python'}
+# output: {'title': 'Second', 'content': 'I love MongoDB'}
